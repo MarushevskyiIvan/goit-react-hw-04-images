@@ -12,7 +12,6 @@ export const App = () => {
   const [images, setImages] = useState([]);
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
-  const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [randomId, setRandomId] = useState(0);
   const [isLoadMore, setIsLoadMore] = useState(false);
@@ -25,7 +24,6 @@ export const App = () => {
 
       try {
         setIsLoading(true);
-        setError(false);
 
         const newImages = await fetchImages(query, page);
 
@@ -33,7 +31,6 @@ export const App = () => {
         setIsLoadMore(page < Math.ceil(newImages.totalHits / 12));
       } catch (error) {
         toast.error('Attention  ERROR fetch images Please reload pages ');
-        setError(true);
       } finally {
         setIsLoading(false);
       }
