@@ -8,7 +8,7 @@ export const ImageGalleryItem = ({
   const [isModalOpen, setModal] = useState(false);
 
   const toggleModal = () => {
-    setModal(!isModalOpen);
+    setModal(prevState => !prevState);
   };
 
   return (
