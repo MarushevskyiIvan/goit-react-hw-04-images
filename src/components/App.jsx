@@ -17,15 +17,17 @@ export const App = () => {
   const [isLoadMore, setIsLoadMore] = useState(false);
 
   useEffect(() => {
+    const abortController = new AbortController();
     async function fetchApi() {
       if (!query) {
         return;
       }
-
       try {
         setIsLoading(true);
 
-        const newImages = await fetchImages(query, page);
+        const newImages = await fetchImages(query, page, {
+          signal: abortController.signal,
+        });
 
         setImages(prevState => [...prevState, ...newImages.hits]);
         setIsLoadMore(page < Math.ceil(newImages.totalHits / 12));
@@ -36,6 +38,9 @@ export const App = () => {
       }
     }
     fetchApi();
+    return () => {
+      abortController.abort();
+    };
   }, [query, page, randomId]);
 
   const handleSubmit = newQuery => {
